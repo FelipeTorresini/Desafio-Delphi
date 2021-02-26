@@ -1,0 +1,45 @@
+unit uMaquina;
+
+interface
+
+uses
+  uIMaquina, Classes, uTroco, TypInfo;
+
+type
+  TMaquina = class(TInterfacedObject, IMaquina)
+  public
+    function MontarTroco(aTroco: Double): TList;
+  end;
+
+implementation
+
+function TMaquina.MontarTroco(aTroco: Double): TList;
+var
+  minhaLista: TList;
+  troco: TTroco;
+  quantidade: Integer;
+  tipoCedula: TCedula;
+  i: Integer;
+begin
+  minhaLista := TList.Create;
+  try
+    repeat
+      tipoCedula := TTroco.CalcularTroco(aTroco, quantidade);
+      troco := TTroco.Create(tipoCedula, quantidade);
+      minhaLista.Add(troco);
+    until aTroco <= 0;
+
+    for i := 0 to minhaLista.Count - 1 do
+    begin
+      writeln(GetEnumName(TypeInfo(TCedula), Integer(TTroco(minhaLista[i]).Tipo)) + '-' + IntToStr(TTroco(minhaLista[i]).Quantidade));
+    end;
+
+  finally
+    minhaLista.Free;
+  end;
+
+  Result := minhaLista;
+end;
+
+end.
+

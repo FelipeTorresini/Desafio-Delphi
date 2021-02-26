@@ -1,0 +1,53 @@
+unit uSubstitui;
+
+interface
+
+uses
+	uISubstitui, System.Classes, System.SysUtils;
+
+type
+
+	TSubstitui = class(TInterfacedObject, ISubstitui)
+	public
+		function Substituir(aStr, aVelho, aNovo: String): String;
+	end;
+
+implementation
+
+function TSubstitui.Substituir(aStr, aVelho, aNovo: String): String;
+var
+	i, j : Integer;
+	lAStr, lAuxStr, vMontaStr : String;
+	vStrLst : TStringList;
+begin
+	try
+
+		vStrLst := TStringList.Create;
+		vStrLst.Delimiter := ' ';
+		vStrLst.DelimitedText := aStr;
+
+		for i := 0 to vStrLst.Count -1 do
+		begin
+			lAStr := vStrLst[i];
+
+			for j := 0 to Length(lAStr) do
+			begin
+				lAuxStr := lAuxStr + trim(lAStr[j]);
+				if lAuxStr = aVelho then
+					lAuxStr := aNovo;
+			end;
+
+			vMontaStr := vMontaStr + ' ' + lAuxStr;
+			lAuxStr := EmptyStr;
+		end;
+
+		Write(vMontaStr);
+
+	except
+    on E: Exception do
+			Writeln(E.ClassName, 'Erro: ', E.Message);
+	end;
+end;
+  
+end.
+

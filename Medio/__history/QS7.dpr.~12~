@@ -1,0 +1,24 @@
+program QS7;
+
+uses
+  uTroco in 'uTroco.pas',
+  uIMaquina in 'uIMaquina.pas',
+  uMaquina in 'uMaquina.pas';
+
+{$APPTYPE CONSOLE}
+
+{$R *.RES}
+
+var
+  objMaquina: TMaquina;
+begin
+  objMaquina := TMaquina.Create;
+  try
+    objMaquina.MontarTroco(125.25);
+  finally
+    objMaquina.Free;
+  end;
+
+	Readln;
+end.
+

@@ -1,0 +1,23 @@
+program QS6;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  uISubstitui in 'uISubstitui.pas',
+  uSubstitui in 'uSubstitui.pas';
+
+var
+	objSubstitui : TSubstitui;
+begin
+	objSubstitui := TSubstitui.Create;
+	try
+		objSubstitui.Substituir('O rato roeu a roupa do rei de roma','ro','teste');
+	finally
+		objSubstitui.Free;
+	end;
+
+	Readln;
+end.
+

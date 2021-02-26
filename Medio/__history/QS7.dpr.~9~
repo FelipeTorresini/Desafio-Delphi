@@ -1,0 +1,23 @@
+program QS7;
+
+uses
+  uTroco in 'uTroco.pas',
+  uIMaquina in 'uIMaquina.pas',
+  uMaquina in 'uMaquina.pas';
+
+{$APPTYPE CONSOLE}
+
+{$R *.RES}
+
+var
+	vValor, v100: Integer;
+begin
+	vValor := 200;
+	v100 := vValor div 100;
+
+	Write(v100);
+
+
+	Readln;
+end.
+

@@ -1,0 +1,135 @@
+unit uTroco;
+
+interface
+
+type
+
+  TCedula = (ceNota100, ceNota50, ceNota20, ceNota10, ceNota5, ceNota2, ceMoeda100, ceMoeda50, ceMoeda25,
+              ceMoeda10, ceMoeda5, ceMoeda1);
+
+  TTroco = class
+  private
+    FTipo: TCedula;
+    FQuantidade: Integer;
+  public
+    constructor Create(aTipo: TCedula; aQuantidade: Integer);
+    class function CalcularTroco(var ATotal: Double; var AQuantidade: Integer): TCedula;
+
+    property Tipo: TCedula read FTipo;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+  end;
+
+const
+  CValorCedula: array [TCedula] of Double = (100, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.1, 0.05, 0.01);
+
+implementation
+
+constructor TTroco.Create(aTipo: TCedula; aQuantidade: Integer);
+begin
+  inherited Create;
+
+  FTipo := aTipo;
+  FQuantidade := aQuantidade;
+end;
+
+class function TTroco.CalcularTroco(var ATotal: Double; var AQuantidade: Integer): TCedula;
+var
+  lTipo: TCedula;
+  lResto: Double;
+begin
+  // apenas para inicializar a variavel e nao mostrar warning no build
+  lTipo := ceMoeda1;
+
+  // ATotal só deve entrar quando a function for chamada novamente
+  // senao, caira nos if mais de uma vez
+  lResto := ATotal;
+
+  if lResto >= 100 then
+  begin
+    AQuantidade := Trunc(ATotal / 100);
+    ATotal := ATotal - (AQuantidade * 100);
+    lTipo := ceNota100;
+  end;
+
+  if (lResto < 100) and (lResto >= 50)then
+  begin
+    AQuantidade := Trunc(ATotal / 50);
+    ATotal := ATotal - (AQuantidade * 50);
+    lTipo := ceNota50;
+  end;
+
+  if (lResto < 50) and (lResto >= 20) then
+  begin
+    AQuantidade := Trunc(ATotal / 20);
+    ATotal := ATotal - (AQuantidade * 20);
+    lTipo := ceNota20;
+  end;
+
+  if (lResto < 20) and (lResto >= 10) then
+  begin
+    AQuantidade := Trunc(ATotal / 10);
+    ATotal := ATotal - (AQuantidade * 10);
+    lTipo := ceNota10;
+  end;
+
+  if (lResto < 10) and (lResto >= 5) then
+  begin
+    AQuantidade := Trunc(ATotal / 5);
+    ATotal := ATotal - (AQuantidade * 5);
+    lTipo := ceNota5;
+  end;
+
+  if (lResto < 5) and (lResto >= 2) then
+  begin
+    AQuantidade := Trunc(ATotal / 2);
+    ATotal := ATotal - (AQuantidade * 2);
+    lTipo := ceNota2;
+  end;
+
+  if (lResto < 2) and (lResto >= 1) then
+  begin
+    AQuantidade := Trunc(ATotal / 1);
+    ATotal := ATotal - (AQuantidade * 1);
+    lTipo := ceMoeda100;
+  end;
+
+  if (lResto < 1) and (lResto >= 0.50) then
+  begin
+    AQuantidade := Trunc(ATotal / 0.50);
+    ATotal := ATotal - (AQuantidade * 0.50);
+    lTipo := ceMoeda50;
+  end;
+
+  if (lResto < 0.50) and (lResto >= 0.25) then
+  begin
+    AQuantidade := Trunc(ATotal / 0.25);
+    ATotal := ATotal - (AQuantidade * 0.25);
+    lTipo := ceMoeda25;
+  end;
+
+  if (lResto < 0.25) and (lResto >= 0.10) then
+  begin
+    AQuantidade := Trunc(ATotal / 0.10);
+    ATotal := ATotal - (AQuantidade * 0.10);
+    lTipo := ceMoeda10;
+  end;
+
+  if (lResto < 0.10) and (lResto >= 0.05) then
+  begin
+    AQuantidade := Trunc(ATotal / 0.05);
+    ATotal := ATotal - (AQuantidade * 0.05);
+    lTipo := ceMoeda5;
+  end;
+
+  if (lResto < 0.05) and (lResto >= 0.01) then
+  begin
+    AQuantidade := Trunc(ATotal / 0.01);
+    ATotal := ATotal - (AQuantidade * 0.01);
+    lTipo := ceMoeda1;
+  end;
+
+  Result := lTipo;
+end;
+
+end.
+
